@@ -12,7 +12,9 @@ import authRoutes from './routes/authRoutes.js';
 const app = express();
 
 // Application Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://peterfolio.cafecart.cloud'
+}));
 app.use(express.json());
 
 // Basic health check
