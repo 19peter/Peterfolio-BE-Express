@@ -1,4 +1,4 @@
-const cvModel = require('../models/cvModel');
+import * as cvModel from '../models/cvModel.js';
 
 const getCv = async () => {
     return await cvModel.getCvData();
@@ -11,7 +11,7 @@ const updateCv = async (newCvData) => {
     return await cvModel.updateCvData(newCvData);
 };
 
-module.exports = {
+export {
     getCv,
     updateCv
 };

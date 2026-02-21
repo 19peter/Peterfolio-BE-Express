@@ -1,4 +1,4 @@
-const cvService = require('../services/cvService');
+import * as cvService from '../services/cvService.js';
 
 const getCvData = async (req, res, next) => {
     try {
@@ -22,7 +22,7 @@ const updateCvData = async (req, res, next) => {
     }
 };
 
-module.exports = {
+export {
     getCvData,
     updateCvData
 };

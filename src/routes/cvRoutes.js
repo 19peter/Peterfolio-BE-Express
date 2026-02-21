@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const cvController = require('../controllers/cvController');
-const auth = require('../middleware/auth');
+import * as cvController from '../controllers/cvController.js';
+import auth from '../middleware/auth.js';
 
 router.get('/', cvController.getCvData);
 router.put('/', auth, cvController.updateCvData);
 
-module.exports = router;
+export default router;

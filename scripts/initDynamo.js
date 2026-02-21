@@ -1,5 +1,5 @@
-const { DynamoDBClient, CreateTableCommand, ListTablesCommand } = require("@aws-sdk/client-dynamodb");
-const dotenv = require("dotenv");
+import { DynamoDBClient, CreateTableCommand, ListTablesCommand } from "@aws-sdk/client-dynamodb";
+import dotenv from "dotenv";
 
 dotenv.config();
 

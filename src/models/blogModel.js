@@ -1,6 +1,6 @@
-const { ScanCommand, GetCommand, PutCommand, DeleteCommand } = require("@aws-sdk/lib-dynamodb");
-const { v4: uuidv4 } = require('uuid');
-const { dynamoClient } = require("../config/dynamoClient");
+import { ScanCommand, GetCommand, PutCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
+import { v4 as uuidv4 } from 'uuid';
+import { dynamoClient } from "../config/dynamoClient.js";
 
 const TABLE_NAME = "Peterfolio-Blogs";
 
@@ -89,7 +89,7 @@ const deleteBlog = async (id) => {
     }
 };
 
-module.exports = {
+export {
     getAllBlogs,
     getBlogById,
     createBlog,

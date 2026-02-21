@@ -1,4 +1,4 @@
-const blogModel = require('../models/blogModel');
+import * as blogModel from '../models/blogModel.js';
 
 const getAllBlogs = async () => {
     return await blogModel.getAllBlogs();
@@ -29,7 +29,7 @@ const deleteBlog = async (id) => {
     return success;
 };
 
-module.exports = {
+export {
     getAllBlogs,
     getBlogById,
     createBlog,

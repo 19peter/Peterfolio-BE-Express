@@ -1,5 +1,5 @@
-const { GetCommand, PutCommand } = require("@aws-sdk/lib-dynamodb");
-const { dynamoClient } = require("../config/dynamoClient");
+import { GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { dynamoClient } from "../config/dynamoClient.js";
 
 const TABLE_NAME = "Peterfolio-CV";
 const CV_ID = "main"; // Singleton logic: Always get/update the exact same document ID.
@@ -40,7 +40,7 @@ const updateCvData = async (cvData) => {
     }
 };
 
-module.exports = {
+export {
     getCvData,
     updateCvData
 };

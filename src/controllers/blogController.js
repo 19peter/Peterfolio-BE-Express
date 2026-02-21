@@ -1,4 +1,4 @@
-const blogService = require('../services/blogService');
+import * as blogService from '../services/blogService.js';
 
 const getAllBlogs = async (req, res, next) => {
     try {
@@ -54,7 +54,7 @@ const deleteBlog = async (req, res, next) => {
     }
 };
 
-module.exports = {
+export {
     getAllBlogs,
     getBlogById,
     createBlog,

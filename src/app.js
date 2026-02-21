@@ -1,13 +1,13 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
 
 // Middlewares
-const errorHandler = require('./middleware/errorHandler');
+import errorHandler from './middleware/errorHandler.js';
 
 // Route imports
-const cvRoutes = require('./routes/cvRoutes');
-const blogRoutes = require('./routes/blogRoutes');
-const authRoutes = require('./routes/authRoutes');
+import cvRoutes from './routes/cvRoutes.js';
+import blogRoutes from './routes/blogRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
@@ -28,4 +28,4 @@ app.use('/api/blogs', blogRoutes);
 // Error handling middleware
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const login = (req, res, next) => {
     try {
@@ -34,6 +34,6 @@ const login = (req, res, next) => {
     }
 };
 
-module.exports = {
+export {
     login
 };
