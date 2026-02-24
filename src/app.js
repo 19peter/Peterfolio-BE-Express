@@ -13,7 +13,11 @@ const app = express();
 
 // Application Middleware
 app.use(cors({
-    origin: 'https://peterfolio.cafecart.cloud'
+    origin: [
+        'https://peterfolio.cafecart.cloud',
+        'http://localhost:5173',
+        'https://peterfolio-fe.vercel.app'
+    ]
 }));
 app.use(express.json());
 
