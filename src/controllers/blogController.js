@@ -2,10 +2,20 @@ import * as blogService from '../services/blogService.js';
 
 const getAllBlogs = async (req, res, next) => {
     try {
-        const blogs = await blogService.getAllBlogs();
+        const blogs = await blogService.getVisibleBlogs();
         res.status(200).json(blogs);
     } catch (error) {
         console.error("Error in getAllBlogs controller:", error);
+        next(error);
+    }
+};
+
+const getAllBlogsAdmin = async (req, res, next) => {
+    try {
+        const blogs = await blogService.getAllBlogs();
+        res.status(200).json(blogs);
+    } catch (error) {
+        console.error("Error in getAllBlogsAdmin controller:", error);
         next(error);
     }
 };
@@ -54,10 +64,23 @@ const deleteBlog = async (req, res, next) => {
     }
 };
 
+const toggleBlogVisibility = async (req, res, next) => {
+    try {
+        const updatedBlog = await blogService.toggleBlogVisibility(req.params.id);
+        res.status(200).json(updatedBlog);
+    } catch (error) {
+        console.error(`Error in toggleBlogVisibility controller for ID ${req.params.id}:`, error);
+        res.status(404);
+        next(error);
+    }
+};
+
 export {
     getAllBlogs,
+    getAllBlogsAdmin,
     getBlogById,
     createBlog,
     updateBlog,
+    toggleBlogVisibility,
     deleteBlog
 };
