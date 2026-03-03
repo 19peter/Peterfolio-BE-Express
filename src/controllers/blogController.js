@@ -75,6 +75,63 @@ const toggleBlogVisibility = async (req, res, next) => {
     }
 };
 
+const getBlogSharePreview = async (req, res, next) => {
+    try {
+        const blog = await blogService.getBlogById(req.params.id);
+
+        // Construct frontend URL (prefer production, fallback to origin or placeholder)
+        const frontendUrl = process.env.FRONTEND_URL;
+        const postUrl = `${frontendUrl}/blog/${blog.id}`;
+
+        // Use thumbnail if available, otherwise default to a generic image or none
+        const imageUrl = blog.thumbnail || `${frontendUrl}/og-image.png`;
+
+        // Simple description from content (strip markdown/truncate)
+        const description = blog.content ? blog.content.substring(0, 160).replace(/[#*`]/g, '') + '...' : 'Read more on Peterfolio';
+
+        res.set('Content-Type', 'text/html');
+        // Simple escaping for title to prevent breaking HTML
+        const safeTitle = blog.title.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        res.status(200).send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=${postUrl}">
+    <title>${safeTitle}</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="${postUrl}">
+    <meta property="og:title" content="${safeTitle}">
+    <meta property="og:description" content="${description}">
+    <meta property="og:image" content="${imageUrl}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="${postUrl}">
+    <meta property="twitter:title" content="${safeTitle}">
+    <meta property="twitter:description" content="${description}">
+    <meta property="twitter:image" content="${imageUrl}">
+
+    <script>
+        // JavaScript redirect as primary method
+        window.location.replace("${postUrl}");
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href="${postUrl}">${safeTitle}</a>...</p>
+</body>
+</html>
+        `);
+    } catch (error) {
+        console.error(`Error in getBlogSharePreview for ID ${req.params.id}:`, error);
+        res.status(404).send('Post not found');
+    }
+};
+
 export {
     getAllBlogs,
     getAllBlogsAdmin,
@@ -82,5 +139,6 @@ export {
     createBlog,
     updateBlog,
     toggleBlogVisibility,
-    deleteBlog
+    deleteBlog,
+    getBlogSharePreview
 };

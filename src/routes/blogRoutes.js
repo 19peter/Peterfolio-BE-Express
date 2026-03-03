@@ -5,6 +5,7 @@ import auth from '../middleware/auth.js';
 
 router.get('/', blogController.getAllBlogs);
 router.get('/admin', auth, blogController.getAllBlogsAdmin);
+router.get('/share/:id', blogController.getBlogSharePreview);
 router.get('/:id', blogController.getBlogById);
 router.post('/', auth, blogController.createBlog);
 router.put('/:id', auth, blogController.updateBlog);
