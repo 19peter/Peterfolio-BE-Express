@@ -83,9 +83,9 @@ const getBlogSharePreview = async (req, res, next) => {
         const frontendUrl = process.env.FRONTEND_URL || 'https://peterfolio-fe.vercel.app';
         const postUrl = `${frontendUrl}/blog/${blog.id}`;
 
-        // Use thumbnail if available, otherwise default to fallback. 
         // Ensure the URL is absolute for social crawlers.
-        let imageUrl = blog.thumbnail || `${frontendUrl}/og-image.png`;
+        let imageUrl = blog.thumbnail;
+
         if (imageUrl && !imageUrl.startsWith('http')) {
             imageUrl = `${frontendUrl}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
         }
@@ -96,6 +96,9 @@ const getBlogSharePreview = async (req, res, next) => {
         res.set('Content-Type', 'text/html');
         // Simple escaping for title to prevent breaking HTML
         const safeTitle = blog.title.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        // Log for diagnostics (helpful for the user to see what's happening on their server)
+        console.log(`[SharePreview] ID: ${blog.id}, Frontend: ${frontendUrl}, Image: ${imageUrl}`);
 
         res.status(200).send(`
 <!DOCTYPE html>
@@ -114,11 +117,11 @@ const getBlogSharePreview = async (req, res, next) => {
     <meta property="og:image" content="${imageUrl}">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="${postUrl}">
-    <meta property="twitter:title" content="${safeTitle}">
-    <meta property="twitter:description" content="${description}">
-    <meta property="twitter:image" content="${imageUrl}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="${postUrl}">
+    <meta name="twitter:title" content="${safeTitle}">
+    <meta name="twitter:description" content="${description}">
+    <meta name="twitter:image" content="${imageUrl}">
 
     <script>
         // JavaScript redirect as primary method
