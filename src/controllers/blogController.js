@@ -80,11 +80,15 @@ const getBlogSharePreview = async (req, res, next) => {
         const blog = await blogService.getBlogById(req.params.id);
 
         // Construct frontend URL (prefer production, fallback to origin or placeholder)
-        const frontendUrl = process.env.FRONTEND_URL;
+        const frontendUrl = process.env.FRONTEND_URL || 'https://peterfolio-fe.vercel.app';
         const postUrl = `${frontendUrl}/blog/${blog.id}`;
 
-        // Use thumbnail if available, otherwise default to a generic image or none
-        const imageUrl = blog.thumbnail || `${frontendUrl}/og-image.png`;
+        // Use thumbnail if available, otherwise default to fallback. 
+        // Ensure the URL is absolute for social crawlers.
+        let imageUrl = blog.thumbnail || `${frontendUrl}/og-image.png`;
+        if (imageUrl && !imageUrl.startsWith('http')) {
+            imageUrl = `${frontendUrl}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+        }
 
         // Simple description from content (strip markdown/truncate)
         const description = blog.content ? blog.content.substring(0, 160).replace(/[#*`]/g, '') + '...' : 'Read more on Peterfolio';
